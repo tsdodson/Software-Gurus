@@ -1,9 +1,7 @@
 import os
-import json
 from dotenv import load_dotenv
 from supabase import create_client, Client
-from faker import Faker
-import faker_commerce
+
 
 os.environ["SUPABASE_URL"] = "https://bkxlgoiyqsmvsykhgopu.supabase.co"
 os.environ["SUPABASE_KEY"] = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJreGxnb2l5cXNtdnN5a2hnb3B1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE2OTQ2NTIyNzIsImV4cCI6MjAxMDIyODI3Mn0.N64l3Prio2ucUYXv65UBhq_wxa0lVk62_00nGvCeH38"
