@@ -32,19 +32,19 @@ git clone https://github.com/tsdodson/Software-Gurus.git
 #### Step 2: Install Dependencies
 ** YOU MUST HAVE THE LATEST VERSION OF PYTHON INSTALLED ON YOUR MACHINE **
 
-In order to run the project, install the following packages using the pip install commands:
-    1. pip3 install python-dotenv
-    2. pip3 install supabase
-    3. pip3 install tk
-    4. pip3 install mysql-connector
-    
+In order to run the project, install the following packages using the pip install commands: <br>
+    1. pip3 install python-dotenv <br>
+    2. pip3 install supabase <br>
+    3. pip3 install tk <br>
+    4. pip3 install mysql-connector <br>
+    <br>
 If 'pip3' does not work try to use 'pip' instead.
 
 
 ## Running The Project
 
 After installing the dependencies, to run the project type in the following command in the root directory:
-
+<br>
 python3 build.py
-
+<br>
 If the command does not work, try using 'python' instead of 'python3'.
