@@ -18,31 +18,36 @@ This project is a simple implementation of the old school laser tag system. This
 
 
 ## Getting Started
+<br>
+<br>
 
 ### Installation
 
 Follow these steps to install and set up the project on your local machine.
-
+<br>
+<br>
 #### Step 1: Clone the Repository
-
+<br>
 Navigate to the folder on your local machine that you wish to clone the repo to then type the following command: 
-
+<br>
 git clone https://github.com/tsdodson/Software-Gurus.git
-
+<br>
+<br>
 #### Step 2: Install Dependencies
 ** YOU MUST HAVE THE LATEST VERSION OF PYTHON INSTALLED ON YOUR MACHINE **
-
-In order to run the project, install the following packages using the pip install commands: <br>
+<br>
+In order to run the project, install the following packages using the pip install commands: <br><br>
     1. pip3 install python-dotenv <br>
     2. pip3 install supabase <br>
     3. pip3 install tk <br>
     4. pip3 install mysql-connector <br>
-    <br>
+    <br><br>
 If 'pip3' does not work try to use 'pip' instead.
 
-
+<br>
+<br>
 ## Running The Project
-
+<br>
 After installing the dependencies, to run the project type in the following command in the root directory:
 <br>
 python3 build.py
