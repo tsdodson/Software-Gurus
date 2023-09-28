@@ -61,7 +61,6 @@ class PlayerEntry:
     
     def add_player(self):
         self.getInputs()
-
         # add_entries(supabase,id,firstname,lastname,codename)
         # transmitEquipmentCode(id) # Change to equipment code
         return
