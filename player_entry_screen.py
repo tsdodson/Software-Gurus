@@ -4,6 +4,8 @@ import random
 import os
 import mysql.connector
 from mysql.connector import Error
+from udpclient import transmitEquipmentCode
+
 
 load_dotenv()
 url: str = os.environ.get("SUPABASE_URL")
@@ -52,7 +54,8 @@ class PlayerEntry:
         lastname = self.lastname_entry.get()
         codename = self.codename_entry.get()
         add_entries(supabase,id,firstname,lastname,codename)
-
+        transmitEquipmentCode(id) # Change to equipment code
+        
     # def remove_player(self, id):
     #     id = self.remove_entry.get()
 
