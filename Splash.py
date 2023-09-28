@@ -5,7 +5,7 @@ import time
 class Splash(tk.Tk):
     def __init__(self):
         super().__init__()
-        self.geometry("16:9")
+        self.geometry("400x255")
         self.title("Splash Screen")
         self.overrideredirect(True)  # Remove window borders and decorations
         self.configure(bg="white")
