@@ -24,14 +24,14 @@ This project is a simple implementation of the old school laser tag system. This
 
 Follow these steps to install and set up the project on your local machine.
 <br>
-<br>
+
 #### Step 1: Clone the Repository
 <br>
 Navigate to the folder on your local machine that you wish to clone the repo to then type the following command: 
 <br>
 git clone https://github.com/tsdodson/Software-Gurus.git
 <br>
-<br>
+
 #### Step 2: Install Dependencies
 ** YOU MUST HAVE THE LATEST VERSION OF PYTHON INSTALLED ON YOUR MACHINE **
 <br>
@@ -44,7 +44,7 @@ In order to run the project, install the following packages using the pip instal
 If 'pip3' does not work try to use 'pip' instead.
 
 <br>
-<br>
+
 ## Running The Project
 <br>
 After installing the dependencies, to run the project type in the following command in the root directory:
