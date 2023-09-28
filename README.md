@@ -19,7 +19,6 @@ This project is a simple implementation of the old school laser tag system. This
 
 ## Getting Started
 <br>
-<br>
 
 ### Installation
 
