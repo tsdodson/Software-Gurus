@@ -1,31 +1,95 @@
 import tkinter as tk
+from database import *
+import random
+import os
+import mysql.connector
+from mysql.connector import Error
+from udpclient import transmitEquipmentCode
+
+
+load_dotenv()
+url: str = os.environ.get("SUPABASE_URL")
+key: str = os.environ.get("SUPABASE_KEY")
+supabase: Client = create_client(url, key)
 
 class PlayerEntry:
+    
+    def getInputs(self):
+        self.team1Entries = []
+        self.team2Entries = []
+        for i in range(0,15):
+            self.team1Entries.append([[self.team1ID[i].get()], [self.team1CodeName[i].get()], [self.team1EquipmentID[i].get()]])
+            self.team2Entries.append([[self.team2ID[i].get()], [self.team2CodeName[i].get()], [self.team2EquipmentID[i].get()]])
+        print(self.team1Entries, self.team2Entries)
+        return 
+    
+    def add_player(self):
+        for i in range(0,15):
+            teamEntry = self.teamEntry1[i].get()
+            print(teamEntry)
+
+        # add_entries(supabase,id,firstname,lastname,codename)
+        # transmitEquipmentCode(id) # Change to equipment code
+        return
+
     def __init__(self):
         self.root = tk.Tk()
-        self.root.title('Software Gurus')
+        self.root.geometry("800x600")
+        self.frame = tk.Frame(self.root)
+        self.frame.pack(pady=20)
+        self.root.title('Software Gurus - Laser Tag')
+        
+        self.team1ID = []
+        self.team1CodeName = []
+        self.team1EquipmentID = []
 
-        # Create a label widget
-        label = tk.Label(self.root, text="Enter your name:")
+        self.team2ID = []
+        self.team2CodeName = []
+        self.team2EquipmentID = []
 
-        # Create a text box widget
-        self.player_entry = tk.Entry(self.root)
+        for row in range(15):
+            label = tk.Label(self.frame, text=f"{row + 1}:")
+            label.grid(row=row, column=0, sticky="e")
 
-        # Create a button widget
-        button = tk.Button(self.root, text="Add Player", command=self.add_player)
+            entry = tk.Entry(self.frame)
+            entry.grid(row=row, column=1)
 
-        # Add the widgets to the root window
-        label.pack()
-        self.player_entry.pack()
-        button.pack()
+            entry2 = tk.Entry(self.frame)
+            entry2.grid(row=row, column=2)
+
+            entry3 = tk.Entry(self.frame)
+            entry3.grid(row=row, column=3)
+
+            self.team1ID.append(entry)
+            self.team1CodeName.append(entry2)
+            self.team1EquipmentID.append(entry3)
+
+        for row in range(15):
+            label = tk.Label(self.frame, text=f"{row + 1}:")
+            label.grid(row=row, column=4, sticky="e")
+
+            entry = tk.Entry(self.frame)
+            entry.grid(row=row, column=5)
+
+            entry2 = tk.Entry(self.frame)
+            entry2.grid(row=row, column=6)
+
+            entry3 = tk.Entry(self.frame)
+            entry3.grid(row=row, column=7)
+
+            self.team2ID.append(entry)
+            self.team2CodeName.append(entry2)
+            self.team2EquipmentID.append(entry3)
+        
+        
 
         # Start the main event loop
         self.root.mainloop()
 
-    def add_player(self):
-        player = self.player_entry.get()
-        print(player, 'added')
+        self.getInputs()
+
 
 # Create an instance of the NameGUI class
 gui = PlayerEntry()
+
 
