@@ -39,6 +39,7 @@ class PlayerEntry:
             entry3 = tk.Entry(self.frame)
             entry3.grid(row=row, column=3)
 
+<<<<<<< HEAD
             entry4 = tk.Entry(self.frame)
             entry4.grid(row=row, column=4)
             
@@ -68,22 +69,48 @@ class PlayerEntry:
 
             entry5 = tk.Entry(self.frame)
             entry5.grid(row=row,column=11)
+=======
+            self.team1ID.append(entry)
+            self.team1CodeName.append(entry2)
+            self.team1EquipmentID.append(entry3)
+
+        for row in range(15):
+            label = tk.Label(self.frame, text=f"{row + 1}:")
+            label.grid(row=row, column=4, sticky="e")
+
+            entry = tk.Entry(self.frame)
+            entry.grid(row=row, column=5)
+
+            entry2 = tk.Entry(self.frame)
+            entry2.grid(row=row, column=6)
+
+            entry3 = tk.Entry(self.frame)
+            entry3.grid(row=row, column=7)
+>>>>>>> 0601a24a11f56616ce1d7c80d04b58520048c24e
 
             self.team2ID.append(entry)
             self.team2CodeName.append(entry2)
             self.team2EquipmentID.append(entry3)
+<<<<<<< HEAD
             self.team2FirstName.append(entry4)
             self.team2LastName.append(entry5)
+=======
+>>>>>>> 0601a24a11f56616ce1d7c80d04b58520048c24e
         return
     
     def getInputs(self):
         self.team1Entries = []
         self.team2Entries = []
         for i in range(0,15):
+<<<<<<< HEAD
             self.team1Entries.append([[self.team1ID[i].get()], [self.team1CodeName[i].get()], [self.team1EquipmentID[i].get()], [self.team1FirstName[i].get()],[self.team1LastName[i].get()]])
             self.team2Entries.append([[self.team2ID[i].get()], [self.team2CodeName[i].get()], [self.team2EquipmentID[i].get()], [self.team2FirstName[i].get()],[self.team2LastName[i].get()]])
             add_entries(supabase, self.team1ID[i].get(), self.team1FirstName[i].get(), self.team1LastName[i].get(),self.team1CodeName[i].get())
             add_entries(supabase, self.team2ID[i].get(), self.team2FirstName[i].get(), self.team2LastName[i].get(), self.team2CodeName[i].get())
+=======
+            self.team1Entries.append([[self.team1ID[i].get()], [self.team1CodeName[i].get()], [self.team1EquipmentID[i].get()]])
+            self.team2Entries.append([[self.team2ID[i].get()], [self.team2CodeName[i].get()], [self.team2EquipmentID[i].get()]])
+>>>>>>> 0601a24a11f56616ce1d7c80d04b58520048c24e
         print(self.team1Entries, self.team2Entries)
         return 
     
@@ -95,6 +122,7 @@ class PlayerEntry:
 
     def __init__(self):
         self.root = tk.Tk()
+<<<<<<< HEAD
         self.root.geometry("1500x600")
         self.frame = tk.Frame(self.root)
         self.frame.pack(pady=20)
@@ -117,6 +145,24 @@ class PlayerEntry:
         # Create labels and entries
         self.createEntries()
 
+=======
+        self.root.geometry("800x600")
+        self.frame = tk.Frame(self.root)
+        self.frame.pack(pady=20)
+        self.root.title('Software Gurus - Laser Tag')
+        
+        self.team1ID = []
+        self.team1CodeName = []
+        self.team1EquipmentID = []
+
+        self.team2ID = []
+        self.team2CodeName = []
+        self.team2EquipmentID = []
+
+        # Create labels and entries
+        self.createEntries()
+
+>>>>>>> 0601a24a11f56616ce1d7c80d04b58520048c24e
         # Button when clicked, retrieves all information filled out
         add_player = tk.Button(self.root, text="Add Players", command=self.add_player)
         add_player.pack()
@@ -124,6 +170,7 @@ class PlayerEntry:
         # Start the main event loop
         self.root.mainloop()
 
+<<<<<<< HEAD
     def check(self):
         data = {}
         id1 = [15]
@@ -174,9 +221,14 @@ class PlayerEntry:
         filepos = asksaveasfile(filetypes = files, defaultextension = json, initialfile = 'ENTRIES')
         writeToJSONFile(filepos,fileName,data)
 
+=======
+>>>>>>> 0601a24a11f56616ce1d7c80d04b58520048c24e
 
 
 # Create an instance of the NameGUI class
 gui = PlayerEntry()
+
+
+
 
 
