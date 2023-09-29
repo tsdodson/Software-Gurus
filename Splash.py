@@ -11,7 +11,7 @@ class Splash(tk.Tk):
         self.configure(bg="white")
 
         # Load the image
-        self.splash_image = PhotoImage(file="Software-Gurus/images/logo.gif")  # Make sure you have a GIF image
+        self.splash_image = PhotoImage(file="images/logo.gif")  # Make sure you have a GIF image
 
         # Center the splash screen on the screen
         screen_width = self.winfo_screenwidth()
@@ -26,7 +26,7 @@ class Splash(tk.Tk):
 
         # Update the splash screen
         self.update()
-        self.after(5000, self.destroy_splash)  # Close the splash screen after 5000ms (5 seconds)
+        self.after(3000, self.destroy_splash)  # Close the splash screen after 5000ms (5 seconds)
 
     def destroy_splash(self):
         self.destroy()
