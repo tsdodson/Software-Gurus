@@ -11,6 +11,8 @@
 
 - [Running The Project](#running-the-project)
 
+- [Members](#members)
+
 
 ## Project Overview
 
@@ -59,3 +61,15 @@ To enter a player, enter the information in the columns in the following order:
 <br>
 Player ID, code name, equipment ID, first name, last name.
 
+## Members
+
+Joseph Bergin - joseph-bergin
+<br>
+William Finck - filliammm
+<br>
+Tyler Dodson - tsdodson
+<br>
+Braeden Morgan - bsmorgan
+<br>
+Logan Galowitsch - Lgalowitsch
+<br>
