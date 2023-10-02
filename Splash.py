@@ -26,7 +26,7 @@ class Splash(tk.Tk):
 
         # Update the splash screen
         self.update()
-        self.after(3000, self.destroy_splash)  # Close the splash screen after 5000ms (5 seconds)
+        self.after(3000, self.destroy_splash)  # Close the splash screen after 3000ms (3 seconds)
 
     def destroy_splash(self):
         self.destroy()
