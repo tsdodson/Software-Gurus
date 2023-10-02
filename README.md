@@ -52,3 +52,10 @@ After installing the dependencies, to run the project type in the following comm
 python3 build.py
 <br>
 If the command does not work, try using 'python' instead of 'python3'.
+
+<br>
+
+To enter a player, enter the information in the columns in the following order:
+<br>
+Player ID, code name, equipment ID, first name, last name.
+
