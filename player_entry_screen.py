@@ -26,19 +26,19 @@ class PlayerEntry:
             label = tk.Label(self.frame, text=f"{row + 1}:")
             label.grid(row=row, column=0, sticky="e")
 
-            entry = tk.Entry(self.frame)
+            entry = tk.Entry(self.frame, width=7)
             entry.grid(row=row, column=1)
 
-            entry2 = tk.Entry(self.frame)
+            entry2 = tk.Entry(self.frame, width=15)
             entry2.grid(row=row, column=2)
 
-            entry3 = tk.Entry(self.frame)
+            entry3 = tk.Entry(self.frame, width=7)
             entry3.grid(row=row, column=3)
 
-            entry4 = tk.Entry(self.frame)
+            entry4 = tk.Entry(self.frame, width=15)
             entry4.grid(row=row, column=4)
             
-            entry5 = tk.Entry(self.frame)
+            entry5 = tk.Entry(self.frame, width=15)
             entry5.grid(row=row, column=5)
             self.team1ID.append(entry)
             self.team1CodeName.append(entry2)
@@ -50,19 +50,19 @@ class PlayerEntry:
             label = tk.Label(self.frame, text=f"{row + 1}:")
             label.grid(row=row, column=6, sticky="e")
 
-            entry = tk.Entry(self.frame)
+            entry = tk.Entry(self.frame, width=7)
             entry.grid(row=row, column=7)
 
-            entry2 = tk.Entry(self.frame)
+            entry2 = tk.Entry(self.frame, width=15)
             entry2.grid(row=row, column=8)
 
-            entry3 = tk.Entry(self.frame)
+            entry3 = tk.Entry(self.frame, width=7)
             entry3.grid(row=row, column=9)
 
-            entry4 = tk.Entry(self.frame)
+            entry4 = tk.Entry(self.frame, width=15)
             entry4.grid(row=row, column=10)
 
-            entry5 = tk.Entry(self.frame)
+            entry5 = tk.Entry(self.frame, width=15)
             entry5.grid(row=row,column=11)
 
             self.team2ID.append(entry)
