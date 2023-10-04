@@ -9,6 +9,10 @@ import random
 import json
 from tkinter.filedialog import asksaveasfile
 
+first_names=('John','Andy','Joe')
+last_names=('Johnson','Smith','Williams')
+
+group=" ".join(random.choice(first_names)+" "+random.choice(last_names) for _ in range(3))
 
 load_dotenv()
 url: str = os.environ.get("SUPABASE_URL")
@@ -23,22 +27,22 @@ class PlayerEntry:
 
     def createEntries(self):
         for row in range(15):
-            label = tk.Label(self.frame, text=f"{row + 1}:")
+            label = tk.Label(self.frame1, text=f"{row + 1}:")
             label.grid(row=row, column=0, sticky="e")
 
-            entry = tk.Entry(self.frame)
+            entry = tk.Entry(self.frame1, width=7)
             entry.grid(row=row, column=1)
 
-            entry2 = tk.Entry(self.frame)
+            entry2 = tk.Entry(self.frame1, width=15)
             entry2.grid(row=row, column=2)
 
-            entry3 = tk.Entry(self.frame)
+            entry3 = tk.Entry(self.frame1, width=7)
             entry3.grid(row=row, column=3)
 
-            entry4 = tk.Entry(self.frame)
+            entry4 = tk.Entry(self.frame1, width=15)
             entry4.grid(row=row, column=4)
             
-            entry5 = tk.Entry(self.frame)
+            entry5 = tk.Entry(self.frame1, width=15)
             entry5.grid(row=row, column=5)
             self.team1ID.append(entry)
             self.team1CodeName.append(entry2)
@@ -47,22 +51,22 @@ class PlayerEntry:
             self.team1LastName.append(entry5)
 
         for row in range(15):
-            label = tk.Label(self.frame, text=f"{row + 1}:")
+            label = tk.Label(self.frame1, text=f"{row + 1}:")
             label.grid(row=row, column=6, sticky="e")
 
-            entry = tk.Entry(self.frame)
+            entry = tk.Entry(self.frame1, width=7)
             entry.grid(row=row, column=7)
 
-            entry2 = tk.Entry(self.frame)
+            entry2 = tk.Entry(self.frame1, width=15)
             entry2.grid(row=row, column=8)
 
-            entry3 = tk.Entry(self.frame)
+            entry3 = tk.Entry(self.frame1, width=7)
             entry3.grid(row=row, column=9)
 
-            entry4 = tk.Entry(self.frame)
+            entry4 = tk.Entry(self.frame1, width=15)
             entry4.grid(row=row, column=10)
 
-            entry5 = tk.Entry(self.frame)
+            entry5 = tk.Entry(self.frame1, width=15)
             entry5.grid(row=row,column=11)
 
             self.team2ID.append(entry)
@@ -70,9 +74,40 @@ class PlayerEntry:
             self.team2EquipmentID.append(entry3)
             self.team2FirstName.append(entry4)
             self.team2LastName.append(entry5)
+
+         # Button when clicked, retrieves all information filled out
+        add_player = tk.Button(self.frame1, text="Add Players", command=self.add_player)
+        add_player.grid(row=16, column=6)
+
+        switch_button = tk.Button(self.frame1, text="F5 - Start Game", command=self.show_action_screen)
+        switch_button.grid(row=17, column=6)
+
+        self.current_frame = self.frame1
+        self.frame1.grid(padx=50, pady=30, row=0, column=0, sticky="nsew")
         return
     
-    # Transmits equipment codes
+    # Creates action screen
+    def createAction(self):
+        label = tk.Label(self.frame2, text="Action Screen")
+        label.grid(row=1, column=6, sticky="e")
+
+        screen_switch = tk.Button(self.frame2, text="Esc - Exit", command=self.show_entry_screen)
+        screen_switch.grid(row=16, column=6)
+        return
+
+    def show_entry_screen(self, event=None):
+        if self.current_frame == self.frame2:
+            self.frame2.grid_forget()  # Hide the current frame
+            self.frame1.grid(padx=50, pady=30, row=0, column=0, sticky="nsew") # Show the next frame
+            self.current_frame = self.frame1
+
+    def show_action_screen(self, event=None):
+        if self.current_frame == self.frame1:
+            self.frame1.grid_forget()  # Hide the current frame
+            self.frame2.grid(padx=50, pady=30, row=0, column=0, sticky="nsew") # Show the next frame
+            self.current_frame = self.frame2
+
+    # Transmits equipment
     def transmit(self):
         for entry in self.team1Entries:
             if entry[2] not in self.transmitted:
@@ -83,7 +118,7 @@ class PlayerEntry:
                 transmitEquipmentCode(entry[2])
                 self.transmitted.append(entry[2])
         
-    # Gets the input from the user and appends it to list
+    # Gets input and then calls transmit function
     def getInputsAndTransmit(self):
         
         for i in range(0,15):
@@ -93,7 +128,7 @@ class PlayerEntry:
             if self.team2ID[i].get() != '':
                 self.team2Entries.append([[self.team2ID[i].get()], [self.team2CodeName[i].get()], [self.team2EquipmentID[i].get()], [self.team2FirstName[i].get()],[self.team2LastName[i].get()]])
                 add_entries(supabase, self.team2ID[i].get(), self.team2FirstName[i].get(), self.team2LastName[i].get(), self.team2CodeName[i].get())
-
+            
         self.transmit()
         return 
     
@@ -105,9 +140,22 @@ class PlayerEntry:
     def __init__(self):
         self.root = tk.Tk()
         self.root.geometry("1500x600")
-        self.frame = tk.Frame(self.root)
-        self.frame.pack(pady=20)
         self.root.title('Software Gurus - Laser Tag')
+        
+        # Bind the '1' and '2' keys to switch between screens
+        self.root.bind('<F5>', self.show_action_screen)
+        self.root.bind('<Escape>', self.show_entry_screen)
+
+        # Center the frames within the main window
+        self.root.grid_columnconfigure(0, weight=1)
+
+        self.frame1 = tk.Frame(self.root)
+        
+
+        self.frame2 = tk.Frame(self.root)
+        self.current_frame = None
+        
+       
         # self.save = tk.Button(self.root,text="save player entries",command = self.check)
         # self.save.pack()
 
@@ -128,106 +176,14 @@ class PlayerEntry:
         self.team2CodeName = []
         self.team2EquipmentID = []
 
-        # Create labels and entries
+        # Create labels and entries for frame1
         self.createEntries()
 
-        # Button when clicked, retrieves all information filled out
-        add_player = tk.Button(self.root, text="Add Players", command=self.add_player)
-        add_player.pack()
+        # Create action screen for frame2
+        self.createAction()
 
         # Start the main event loop
         self.root.mainloop()
-
-    # def check(self):
-    #     data = {}
-    #     id1 = [15]
-    #     codename1 = [15]
-    #     EqId1 = [15]
-    #     firstname1 = [15]
-    #     lastname1 = [15]
-    #     id2 = [15]
-    #     codename2 = [15]
-    #     EqId2 = [15]
-    #     firstname2 = [15]
-    #     lastname2 = [15]
-    #     for i in range(0,15):
-    #         if(id1[i] == None and id2[i] == None):
-    #             i = 15
-    #         id1[i] = self.team1ID[i].get()
-    #         codename1[i] = self.team1CodeName[i].get()
-    #         EqId1[i] = self.team1EquipmentID[i].get()
-    #         firstname1[i] = self.team1FirstName[i].get()
-    #         lastname1[i] = self.team1LastName[i].get()
-    #         id2[i] = self.team2ID[i].get()
-    #         codename2[i] = self.team2CodeName[i].get()
-    #         EqId2[i] = self.team2EquipmentID[i].get()
-    #         firstname2[i] = self.team2FirstName[i].get()
-    #         lastname2[i] = self.team2LastName[i].get()
-    #         print(id1[i])
-    #         print(codename1[i])
-    #         print(EqId1[i])
-    #         print(firstname1[i])
-    #         print(lastname1[i])
-    #         print(id2[i])
-    #         print(codename2[i])
-    #         print(EqId2[i])
-    #         print(firstname2[i])
-    #         print(lastname2[i])
-    #         if id1[i] is not None:
-    #             data['Team 1 ID'] = id1[i]
-    #         else:
-    #             data['Team 1 ID'] = ''
-
-    #         if codename1[i] is not None:
-    #             data['Team 1 Codename'] = codename1[i]
-    #         else:
-    #             data['Team 1 Codename'] = ''
-
-    #         if EqId1[i] is not None:
-    #             data['Team 1 Equipment ID'] = EqId1[i]
-    #         else:
-    #             data['Team 1 Equipment ID'] = ''
-
-    #         if firstname1[i] is not None:
-    #             data['Team 1 First Name'] = firstname1[i]
-    #         else:
-    #             data['Team 1 First Name'] = ''
-
-    #         if lastname1[i] is not None:
-    #             data['Team 1 Last Name'] = lastname1[i]
-    #         else:
-    #             data['Team 1 Last Name'] = ''
-
-    #         if id2[i] is not None:
-    #             data['Team 2 ID'] = id2[i]
-    #         else:
-    #             data['Team 2 ID'] = ''
-
-    #         if codename2[i] is not None:
-    #             data['Team 2 Codename'] = codename2[i]
-    #         else:
-    #             data['Team 2 Codename'] = ''
-
-    #         if EqId2[i] is not None:
-    #             data['Team 2 Equipment ID'] = EqId2[i]
-    #         else:
-    #             data['Team 2 Equipment ID'] = ''
-
-    #         if firstname2[i] is not None:
-    #             data['Team 2 First Name'] = firstname2[i]
-    #         else:
-    #             data['Team 2 First Name'] = ''
-
-    #         if lastname2[i] is not None:
-    #             data['Team 2 Last Name'] = lastname2[i]
-    #         else:
-    #             data['Team 2 Last Name'] = ''
-    #     files = [('JSON File', '*.json')]
-    #     fileName = 'ENTRIES'
-    #     filepos = asksaveasfile(filetypes = files, defaultextension = json, initialfile = 'ENTRIES')
-    #     writeToJSONFile(filepos , fileName, data)
-
-
 
 # Create an instance of the NameGUI class
 gui = PlayerEntry()
