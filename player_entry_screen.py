@@ -23,30 +23,50 @@ class PlayerEntry:
 
     # ---------------------- Creates entry screen with all labels and entries ----------------------
     def createEntries(self):
-        for row in range(15):
-            label = tk.Label(self.frame1, text=f"{row + 1}:")
+        label = tk.Label(self.frame1, text="Player ID")
+        label.grid(row=0, column = 1, sticky="e")
+        label = tk.Label(self.frame1, text="Code Name")
+        label.grid(row=0, column = 2, sticky="e")
+        label = tk.Label(self.frame1, text="Equipment ID")
+        label.grid(row=0, column = 3, sticky="e")
+        label = tk.Label(self.frame1, text="Firstname")
+        label.grid(row=0, column = 4, sticky="e")
+        label = tk.Label(self.frame1, text="Lastname")
+        label.grid(row=0, column = 5, sticky="e")
+
+        label = tk.Label(self.frame1, text="Player ID")
+        label.grid(row=0, column = 7, sticky="e")
+        label = tk.Label(self.frame1, text="Code Name")
+        label.grid(row=0, column = 8, sticky="e")
+        label = tk.Label(self.frame1, text="Equipment ID")
+        label.grid(row=0, column = 9, sticky="e")
+        label = tk.Label(self.frame1, text="Firstname")
+        label.grid(row=0, column = 10, sticky="e")
+        label = tk.Label(self.frame1, text="Lastname")
+        label.grid(row=0, column = 11, sticky="e")
+        for row in range(1, 16):
+            label = tk.Label(self.frame1, text=f"{row}:")
             label.grid(row=row, column=0, sticky="e")
 
-            
             entry = tk.Entry(self.frame1, width=7)
             entry.grid(row=row, column=1)
-            entry.configure(fg="white", bg="navy")
+            entry.configure(fg="white", bg="darkgreen")
 
             entry2 = tk.Entry(self.frame1, width=15)
             entry2.grid(row=row, column=2)
-            entry2.configure(fg="white", bg="navy")
+            entry2.configure(fg="white", bg="darkgreen")
 
             entry3 = tk.Entry(self.frame1, width=7)
             entry3.grid(row=row, column=3)
-            entry3.configure(fg="white", bg="navy")
+            entry3.configure(fg="white", bg="darkgreen")
 
             entry4 = tk.Entry(self.frame1, width=15)
             entry4.grid(row=row, column=4)
-            entry4.configure(fg="white", bg="navy")
+            entry4.configure(fg="white", bg="darkgreen")
             
             entry5 = tk.Entry(self.frame1, width=15)
             entry5.grid(row=row, column=5)
-            entry5.configure(fg="white", bg="navy")
+            entry5.configure(fg="white", bg="darkgreen")
 
             self.team1ID.append(entry)
             self.team1CodeName.append(entry2)
@@ -54,8 +74,8 @@ class PlayerEntry:
             self.team1FirstName.append(entry4)
             self.team1LastName.append(entry5)
 
-        for row in range(15):
-            label = tk.Label(self.frame1, text=f"{row + 1}:")
+        for row in range(1, 16):
+            label = tk.Label(self.frame1, text=f"{row}:")
             label.grid(row=row, column=6, sticky="e")
 
             entry = tk.Entry(self.frame1, width=7)
