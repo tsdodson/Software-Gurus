@@ -75,6 +75,7 @@ class PlayerEntry:
             self.team1LastName.append(entry5)
 
         for row in range(1, 16):
+            select_entries(supabase, 10)
             label = tk.Label(self.frame1, text=f"{row}:")
             label.grid(row=row, column=6, sticky="e")
 
@@ -163,11 +164,17 @@ class PlayerEntry:
     def getInputsAndTransmit(self):
         for i in range(0,15):
             if self.team1ID[i].get() != '':
-                self.team1Entries.append([self.team1ID[i].get(), self.team1CodeName[i].get(), self.team1EquipmentID[i].get(), self.team1FirstName[i].get(),self.team1LastName[i].get()])
-                add_entries(supabase, self.team1ID[i].get(), self.team1FirstName[i].get(), self.team1LastName[i].get(),self.team1CodeName[i].get())
+                if player_exists(supabase,self.team1ID[i].get()):
+                    print('player already exists!')
+                else:
+                    self.team1Entries.append([self.team1ID[i].get(), self.team1CodeName[i].get(), self.team1EquipmentID[i].get(), self.team1FirstName[i].get(),self.team1LastName[i].get()])
+                    add_entries(supabase, self.team1ID[i].get(), self.team1FirstName[i].get(), self.team1LastName[i].get(),self.team1CodeName[i].get())
             if self.team2ID[i].get() != '':
-                self.team2Entries.append([[self.team2ID[i].get()], [self.team2CodeName[i].get()], [self.team2EquipmentID[i].get()], [self.team2FirstName[i].get()],[self.team2LastName[i].get()]])
-                add_entries(supabase, self.team2ID[i].get(), self.team2FirstName[i].get(), self.team2LastName[i].get(), self.team2CodeName[i].get())
+                if player_exists(supabase,self.team2ID[i].get()):
+                    print('Player already exists!')
+                else:
+                    self.team2Entries.append([[self.team2ID[i].get()], [self.team2CodeName[i].get()], [self.team2EquipmentID[i].get()], [self.team2FirstName[i].get()],[self.team2LastName[i].get()]])
+                    add_entries(supabase, self.team2ID[i].get(), self.team2FirstName[i].get(), self.team2LastName[i].get(), self.team2CodeName[i].get())
         self.transmit()
         return 
     
