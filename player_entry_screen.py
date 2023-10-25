@@ -1,4 +1,5 @@
 import tkinter as tk
+from tkinter import messagebox
 from database import *
 import random
 import os
@@ -133,17 +134,40 @@ class PlayerEntry:
         label.grid(row= 2, column=20, sticky= "e")
        
         for i in range(len(self.team1Entries)):
+            
             label = tk.Label(self.frame2, text= self.team1Entries[i][1])
             label.grid(row= 3 + i, column=1, sticky= "e")
-
-
-        for i in range(len(self.team2Entries)):
-            label = tk.Label(self.frame2, text= self.team2Entries[i][1])
-            label.grid(row= 3 + i, column=20, sticky= "e")
-            
+            label = tk.Label(self.frame2, text= self.team1Entries[i][1])
+            label.grid(row= 4 + i, column=1, sticky= "e")
+            label = tk.Label(self.frame2, text= self.team1Entries[i][1])
+            label.grid(row= 5 + i, column=1, sticky= "e")
+            label = tk.Label(self.frame2, text= self.team1Entries[i][1])
+            label.grid(row= 6 + i, column=1, sticky= "e")
+            label = tk.Label(self.frame2, text= self.team1Entries[i][1])
+            label.grid(row= 7 + i, column=1, sticky= "e")
+            label = tk.Label(self.frame2, text= self.team1Entries[i][1])
+            label.grid(row= 8 + i, column=1, sticky= "e")
+            label = tk.Label(self.frame2, text= self.team1Entries[i][1])
+            label.grid(row= 9 + i, column=1, sticky= "e")
+            label = tk.Label(self.frame2, text= self.team1Entries[i][1])
+            label.grid(row= 10 + i, column=1, sticky= "e")
+            label = tk.Label(self.frame2, text= self.team1Entries[i][1])
+            label.grid(row= 11+ i, column=1, sticky= "e")
+            label = tk.Label(self.frame2, text= self.team1Entries[i][1])
+            label.grid(row= 12 + i, column=1, sticky= "e")
+            label = tk.Label(self.frame2, text= self.team1Entries[i][1])
+            label.grid(row= 13 + i, column=1, sticky= "e")
+            label = tk.Label(self.frame2, text= self.team1Entries[i][1])
+            label.grid(row= 14 + i, column=1, sticky= "e")
+            label = tk.Label(self.frame2, text= self.team1Entries[i][1])
+            label.grid(row= 15 + i, column=1, sticky= "e")
+            label = tk.Label(self.frame2, text= self.team1Entries[i][1])
+            label.grid(row= 16 + i, column=1, sticky= "e")
+            label = tk.Label(self.frame2, text= self.team1Entries[i][1])
+            label.grid(row= 17 + i, column=1, sticky= "e")
         
         screen_switch = tk.Button(self.frame2, text="Esc - Exit", command=self.show_entry_screen)
-        screen_switch.grid(row=20, column=6)
+        screen_switch.grid(row=16, column=6)
         return
 
 
@@ -158,9 +182,11 @@ class PlayerEntry:
     # ---------------------- Shows the action screen in the window ----------------------
     def show_action_screen(self, event=None):
         if self.current_frame == self.frame1:
-            self.frame1.grid_forget()  # Hide the current frame
-            self.frame2.grid(padx=50, pady=30, row=0, column=0, sticky="nsew") # Show the next frame
-            self.current_frame = self.frame2
+            self.countdown_timer()
+
+            # self.frame1.grid_forget()  # Hide the current frame
+            # self.frame2.grid(padx=50, pady=30, row=0, column=0, sticky="nsew") # Show the next frame
+            # self.current_frame = self.frame2
 
 
     # ---------------------- Transmits equipment code ----------------------
@@ -257,6 +283,35 @@ class PlayerEntry:
 
         # Start the main event loop
         self.root.mainloop()
+    
+    def countdown_timer(self):
+        countdown_seconds = 5
+
+    # Create a function to update the timer label
+        def update_timer():
+            nonlocal countdown_seconds
+            if countdown_seconds > 0:
+                countdown_seconds -= 1
+                timer_label.config(text=f"Time Remaining: {countdown_seconds} seconds")
+                root.after(1000, update_timer)
+            else:
+                timer_label.config(text=f"Game Starting")
+                self.frame1.grid_forget()  # Hide the current frame
+                self.frame2.grid(padx=50, pady=30, row=0, column=0, sticky="nsew") # Show the next frame
+                self.current_frame = self.frame2
+
+        # Create the main window
+        root = tk.Tk()
+        root.title("Countdown Timer")
+
+        # Create a label to display the timer
+        timer_label = tk.Label(root, text=f"Time Remaining: {countdown_seconds} seconds", font=("Helvetica", 20))
+        timer_label.pack(pady=20)
+
+        # Start the timer
+        update_timer()
+
+        #root.mainloop()
 
 # Create an instance of the NameGUI class
 gui = PlayerEntry()
