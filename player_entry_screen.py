@@ -130,16 +130,24 @@ class PlayerEntry:
         label = tk.Label(self.frame2, text= "GREEN TEAM")
         label.grid(row= 2, column=1, sticky= "e")
         label = tk.Label(self.frame2, text= "RED TEAM")
-        label.grid(row= 2, column=20, sticky= "e")
+        label.grid(row= 2, column=40, sticky= "e")
        
         for i in range(len(self.team1Entries)):
             label = tk.Label(self.frame2, text= self.team1Entries[i][1])
             label.grid(row= 3 + i, column=1, sticky= "e")
+            
+        for i in range(len(self.team1Entries)):
+            label = tk.Label(self.frame2, text= '0')
+            label.grid(row= 3 + i, column=2, sticky= "e")
 
 
         for i in range(len(self.team2Entries)):
             label = tk.Label(self.frame2, text= self.team2Entries[i][1])
-            label.grid(row= 3 + i, column=20, sticky= "e")
+            label.grid(row= 3 + i, column=40, sticky= "e")
+            
+        for i in range(len(self.team2Entries)):
+            label = tk.Label(self.frame2, text= '0')
+            label.grid(row= 3 + i, column=41, sticky= "e")
             
         
         screen_switch = tk.Button(self.frame2, text="Esc - Exit", command=self.show_entry_screen)
