@@ -133,40 +133,17 @@ class PlayerEntry:
         label.grid(row= 2, column=20, sticky= "e")
        
         for i in range(len(self.team1Entries)):
-            
             label = tk.Label(self.frame2, text= self.team1Entries[i][1])
             label.grid(row= 3 + i, column=1, sticky= "e")
-            label = tk.Label(self.frame2, text= self.team1Entries[i][1])
-            label.grid(row= 4 + i, column=1, sticky= "e")
-            label = tk.Label(self.frame2, text= self.team1Entries[i][1])
-            label.grid(row= 5 + i, column=1, sticky= "e")
-            label = tk.Label(self.frame2, text= self.team1Entries[i][1])
-            label.grid(row= 6 + i, column=1, sticky= "e")
-            label = tk.Label(self.frame2, text= self.team1Entries[i][1])
-            label.grid(row= 7 + i, column=1, sticky= "e")
-            label = tk.Label(self.frame2, text= self.team1Entries[i][1])
-            label.grid(row= 8 + i, column=1, sticky= "e")
-            label = tk.Label(self.frame2, text= self.team1Entries[i][1])
-            label.grid(row= 9 + i, column=1, sticky= "e")
-            label = tk.Label(self.frame2, text= self.team1Entries[i][1])
-            label.grid(row= 10 + i, column=1, sticky= "e")
-            label = tk.Label(self.frame2, text= self.team1Entries[i][1])
-            label.grid(row= 11+ i, column=1, sticky= "e")
-            label = tk.Label(self.frame2, text= self.team1Entries[i][1])
-            label.grid(row= 12 + i, column=1, sticky= "e")
-            label = tk.Label(self.frame2, text= self.team1Entries[i][1])
-            label.grid(row= 13 + i, column=1, sticky= "e")
-            label = tk.Label(self.frame2, text= self.team1Entries[i][1])
-            label.grid(row= 14 + i, column=1, sticky= "e")
-            label = tk.Label(self.frame2, text= self.team1Entries[i][1])
-            label.grid(row= 15 + i, column=1, sticky= "e")
-            label = tk.Label(self.frame2, text= self.team1Entries[i][1])
-            label.grid(row= 16 + i, column=1, sticky= "e")
-            label = tk.Label(self.frame2, text= self.team1Entries[i][1])
-            label.grid(row= 17 + i, column=1, sticky= "e")
+
+
+        for i in range(len(self.team2Entries)):
+            label = tk.Label(self.frame2, text= self.team2Entries[i][1])
+            label.grid(row= 3 + i, column=20, sticky= "e")
+            
         
         screen_switch = tk.Button(self.frame2, text="Esc - Exit", command=self.show_entry_screen)
-        screen_switch.grid(row=16, column=6)
+        screen_switch.grid(row=20, column=6)
         return
 
 
