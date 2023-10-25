@@ -261,7 +261,7 @@ class PlayerEntry:
         self.root.mainloop()
     
     def countdown_timer(self):
-        countdown_seconds = 5
+        countdown_seconds = 300
 
     # Create a function to update the timer label
         def update_timer():
@@ -269,20 +269,22 @@ class PlayerEntry:
             if countdown_seconds > 0:
                 countdown_seconds -= 1
                 timer_label.config(text=f"Game starting in {countdown_seconds}")
-                root.after(1000, update_timer)
+                frame3.after(1000, update_timer)
             else:
-                timer_label.config(text=f"Game Starting")
                 self.frame1.grid_forget()  # Hide the current frame
                 self.frame2.grid(padx=50, pady=30, row=0, column=0, sticky="nsew") # Show the next frame
                 self.current_frame = self.frame2
+                frame3.destroy()
+                
 
         # Create the main window
-        root = tk.Tk()
-        root.title("Countdown Timer")
+        frame3 = tk.Tk()
+        frame3.title("Countdown Timer")
 
         # Create a label to display the timer
-        timer_label = tk.Label(root, text=f"Game starting in {countdown_seconds}", font=("Helvetica", 20))
+        timer_label = tk.Label(frame3, text=f"Game starting in {countdown_seconds}", font=("Helvetica", 20))
         timer_label.pack(pady=20)
+
 
         # Start the timer
         update_timer()
