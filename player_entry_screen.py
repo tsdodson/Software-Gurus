@@ -232,6 +232,7 @@ class PlayerEntry:
                 countdown_seconds -= 1
                 timer_label.grid(row=18, column=5)
                 timer_label.after(1000, update_timer)
+                timer_label.config(text=f"Game starting in {countdown_seconds}")
             else:
                 self.frame1.grid_forget()  # Hide the current frame
                 self.frame2.grid(padx=50, pady=30, row=0, column=0, sticky="nsew") # Show the next frame
