@@ -17,6 +17,14 @@ def remove_entries(supabase, id):
 def update_entries(supabase, newid, previd, first_name, last_name, codename):
     data = supabase.table('player').update({"id": newid, 'first_name': first_name, 'last_name': last_name, 'codename': codename}).eq("id", previd).execute()
 
+def select_entries(supabase, id):
+    data = supabase.table('player').select('*').execute()
+
+def player_exists(supabase, id):
+    query = supabase.table('player').select('id').eq('id', id)
+    result = query.execute()
+    return len(result.data) > 0
+
 
 
 # def main():
