@@ -34,6 +34,7 @@ class PlayerEntry:
         label.grid(row=0, column = 4, sticky="e")
         label = tk.Label(self.frame1, text="Lastname")
         label.grid(row=0, column = 5, sticky="e")
+        
 
         label = tk.Label(self.frame1, text="Player ID")
         label.grid(row=0, column = 7, sticky="e")
