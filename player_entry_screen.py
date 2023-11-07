@@ -34,7 +34,6 @@ class PlayerEntry:
         label.grid(row=0, column = 4, sticky="e")
         label = tk.Label(self.frame1, text="Lastname")
         label.grid(row=0, column = 5, sticky="e")
-        
 
         label = tk.Label(self.frame1, text="Player ID")
         label.grid(row=0, column = 7, sticky="e")
@@ -191,7 +190,7 @@ class PlayerEntry:
         for i in range(0,15):
             if self.team1ID[i].get() != '':
                 if player_exists(supabase,self.team1ID[i].get()):
-                    print('Player already exists!')
+                    print('player already exists!')
                 else:
                     self.team1Entries.append([self.team1ID[i].get(), self.team1CodeName[i].get(), self.team1EquipmentID[i].get(), self.team1FirstName[i].get(),self.team1LastName[i].get()])
                     add_entries(supabase, self.team1ID[i].get(), self.team1FirstName[i].get(), self.team1LastName[i].get(),self.team1CodeName[i].get())
@@ -223,8 +222,25 @@ class PlayerEntry:
             self.team2LastName[i].delete(0, tk.END)
         return 
     
+    def game_timer(self):
+        countdown_seconds = 360
+        def update_game_timer():
+            nonlocal countdown_seconds
+            if countdown_seconds > 0:
+                countdown_seconds -= 1
+                timer_label.grid(row=1, column=15)
+                timer_label.after(1000, update_game_timer)
+                timer_label.config(text=f"Time remaining: {countdown_seconds}")
+            else:
+                timer_label.destroy()
+            
+        timer_label = tk.Label(self.frame2, text=f"Game ends in {countdown_seconds}")
+        
+        update_game_timer()
+    
     def countdown_timer(self):
-        countdown_seconds = 5
+        countdown_seconds = 30
+
 
     # Create a function to update the timer label
         def update_timer():
@@ -240,6 +256,7 @@ class PlayerEntry:
                 self.frame2.grid(padx=50, pady=30, row=0, column=0, sticky="nsew") # Show the next frame
                 self.current_frame = self.frame2
                 timer_label.destroy()
+                self.game_timer()
                 
         timer_label = tk.Label(self.frame1, text=f"Game starting in {countdown_seconds}")
                 
