@@ -5,7 +5,7 @@ import random
 import os
 import mysql.connector
 from mysql.connector import Error
-from udpclient import transmitEquipmentCode
+from udpclient import transmitCode
 import random
 import json
 from tkinter.filedialog import asksaveasfile
@@ -178,11 +178,11 @@ class PlayerEntry:
     def transmit(self):
         for entry in self.team1Entries:
             if entry[2] not in self.transmitted:
-                transmitEquipmentCode(entry[2])
+                transmitCode(entry[2])
                 self.transmitted.append(entry[2])
         for entry in self.team2Entries:
             if entry[2] not in self.transmitted:
-                transmitEquipmentCode(entry[2])
+                transmitCode(entry[2])
                 self.transmitted.append(entry[2])
 
 
@@ -191,7 +191,7 @@ class PlayerEntry:
         for i in range(0,15):
             if self.team1ID[i].get() != '':
                 if player_exists(supabase,self.team1ID[i].get()):
-                    print('player already exists!')
+                    print('Player already exists!')
                 else:
                     self.team1Entries.append([self.team1ID[i].get(), self.team1CodeName[i].get(), self.team1EquipmentID[i].get(), self.team1FirstName[i].get(),self.team1LastName[i].get()])
                     add_entries(supabase, self.team1ID[i].get(), self.team1FirstName[i].get(), self.team1LastName[i].get(),self.team1CodeName[i].get())
@@ -199,7 +199,7 @@ class PlayerEntry:
                 if player_exists(supabase,self.team2ID[i].get()):
                     print('Player already exists!')
                 else:
-                    self.team2Entries.append([[self.team2ID[i].get()], [self.team2CodeName[i].get()], [self.team2EquipmentID[i].get()], [self.team2FirstName[i].get()],[self.team2LastName[i].get()]])
+                    self.team2Entries.append([self.team2ID[i].get(), self.team2CodeName[i].get(), self.team2EquipmentID[i].get(), self.team2FirstName[i].get(),self.team2LastName[i].get()])
                     add_entries(supabase, self.team2ID[i].get(), self.team2FirstName[i].get(), self.team2LastName[i].get(), self.team2CodeName[i].get())
         self.transmit()
         # Create action screen for frame2
@@ -224,7 +224,7 @@ class PlayerEntry:
         return 
     
     def countdown_timer(self):
-        countdown_seconds = 30
+        countdown_seconds = 5
 
     # Create a function to update the timer label
         def update_timer():
@@ -235,6 +235,7 @@ class PlayerEntry:
                 timer_label.after(1000, update_timer)
                 timer_label.config(text=f"Game starting in {countdown_seconds}")
             else:
+                transmitCode(202)
                 self.frame1.grid_forget()  # Hide the current frame
                 self.frame2.grid(padx=50, pady=30, row=0, column=0, sticky="nsew") # Show the next frame
                 self.current_frame = self.frame2

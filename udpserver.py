@@ -12,15 +12,20 @@ UDPServerSocket.bind((localIP, localPort))
 
 print("UDP server up and listening")
 
+
 # Listen for incoming messages
 while(True):
     
     bytesAddressPair = UDPServerSocket.recvfrom(bufferSize)
-    equipmentCode = bytesAddressPair[0]
-    address = bytesAddressPair[1]
-    clientMsg = "Message from Client:{}".format(equipmentCode)
-    clientIP  = "Client IP Address:{}".format(address)
+    code = bytesAddressPair[0]
+    code = int(code)
+    if code == 202:
+        print("Game has started:{}".format(code))
+    elif code == 221:
+        print("Game has ended:{}".format(code))
+        print(code)
+        print(code)
+    else:
+        print(code)
     
-    print(equipmentCode)
-    print(clientIP)
     
