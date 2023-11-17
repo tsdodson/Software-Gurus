@@ -6,6 +6,7 @@ import os
 import mysql.connector
 from mysql.connector import Error
 from udpclient import transmitCode
+from udpclient import returnReceivedMessages
 import random
 import json
 from tkinter.filedialog import asksaveasfile
@@ -148,10 +149,14 @@ class PlayerEntry:
         for i in range(len(self.team2Entries)):
             label = tk.Label(self.frame2, text= '0')
             label.grid(row= 3 + i, column=41, sticky= "e")
-            
         
+        label = tk.Label(self.frame2, text = "Events")
+        label.grid(row=24,  column=6, sticky="e")
+
         screen_switch = tk.Button(self.frame2, text="Esc - Exit", command=self.show_entry_screen)
-        screen_switch.grid(row=20, column=6)
+        screen_switch.grid(row=1, column=20)
+            
+
         return
 
 
@@ -167,10 +172,6 @@ class PlayerEntry:
     def show_action_screen(self, event=None):
         if self.current_frame == self.frame1:
             self.countdown_timer()
-
-            # self.frame1.grid_forget()  # Hide the current frame
-            # self.frame2.grid(padx=50, pady=30, row=0, column=0, sticky="nsew") # Show the next frame
-            # self.current_frame = self.frame2
 
 
     # ---------------------- Transmits equipment code ----------------------
@@ -222,24 +223,76 @@ class PlayerEntry:
             self.team2LastName[i].delete(0, tk.END)
         return 
     
+    
+        
+    def updateEvents(self):
+        
+        label = tk.Label(self.frame2, text = "")
+        label.grid(row=25,  column=6, sticky="e", columnspan=6, rowspan=5)
+        msg = returnReceivedMessages()
+        if msg == "":
+            return
+        elif ":" not in msg:
+            if msg == "53":
+                print("red base has been scored")
+            elif msg == "43":
+                print("green base has been scored")
+        else:
+            player1 = ""
+            player2 = ""
+            
+            r, t, h = 0, "", ""
+
+            while r < len(msg) and msg[r] != ':' :
+                t += msg[r]
+                r+=1
+            r+= 1
+            h = msg[r:]
+            
+            transmitCode(h)
+            
+            for i in range(max(len(self.team1Entries), len(self.team2Entries))):
+                if t == self.team1Entries[i][2]:
+                    player1 = self.team1Entries[i][1]
+                    break
+                elif t == self.team2Entries[i][2]:
+                    player1 = self.team2Entries[i][1]
+                    break
+            for i in range(max(len(self.team1Entries), len(self.team2Entries))):
+                if h == self.team1Entries[i][2]:
+                    player2 = self.team1Entries[i][1]
+                    break
+                elif h == self.team2Entries[i][2]:
+                    player2 = self.team2Entries[i][1]
+                    break
+            
+            if player1 or player2:
+                label.config(text=f" {player1} shot {player2}")
+
     def game_timer(self):
-        countdown_seconds = 360
+        countdown_seconds = 5
         def update_game_timer():
             nonlocal countdown_seconds
             if countdown_seconds > 0:
                 countdown_seconds -= 1
+                self.updateEvents()
                 timer_label.grid(row=1, column=15)
                 timer_label.after(1000, update_game_timer)
                 timer_label.config(text=f"Time remaining: {countdown_seconds}")
             else:
+                transmitCode("221")
+                transmitCode("221")
+                transmitCode("221")
                 timer_label.destroy()
             
+
+
         timer_label = tk.Label(self.frame2, text=f"Game ends in {countdown_seconds}")
         
         update_game_timer()
     
     def countdown_timer(self):
-        countdown_seconds = 30
+        countdown_seconds = 5
 
 
     # Create a function to update the timer label
@@ -251,7 +304,7 @@ class PlayerEntry:
                 timer_label.after(1000, update_timer)
                 timer_label.config(text=f"Game starting in {countdown_seconds}")
             else:
-                transmitCode(202)
+                transmitCode("202")
                 self.frame1.grid_forget()  # Hide the current frame
                 self.frame2.grid(padx=50, pady=30, row=0, column=0, sticky="nsew") # Show the next frame
                 self.current_frame = self.frame2
@@ -304,9 +357,9 @@ class PlayerEntry:
         # Create labels and entries for frame1
         self.createEntries()
 
-        # # Create action screen for frame2
-        # self.createAction()
-
+        
+        
+        
         # Start the main event loop
         self.root.mainloop()
     

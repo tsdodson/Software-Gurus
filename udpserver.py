@@ -1,31 +1,71 @@
 import socket
+import random
+import time
 
-localIP = "127.0.0.1"
-localPort = 7500 #20001 
-bufferSize = 1024
-
-# Create a socket
-UDPServerSocket = socket.socket(family=socket.AF_INET, type=socket.SOCK_DGRAM)
-
-# Bind to address and ip
-UDPServerSocket.bind((localIP, localPort))
-
-print("UDP server up and listening")
+bufferSize  = 1024
+serverAddressPort   = ("127.0.0.1", 7501)
+clientAddressPort   = ("127.0.0.1", 7500)
 
 
-# Listen for incoming messages
-while(True):
-    
-    bytesAddressPair = UDPServerSocket.recvfrom(bufferSize)
-    code = bytesAddressPair[0]
-    code = int(code)
-    if code == 202:
-        print("Game has started:{}".format(code))
-    elif code == 221:
-        print("Game has ended:{}".format(code))
-        print(code)
-        print(code)
-    else:
-        print(code)
+print('this program will generate some test traffic for 2 players on the red ')
+print('team as well as 2 players on the green team')
+print('')
+
+red1 = '89'
+red2 = '21'
+green1 = '3'
+green2 = '5'
+
+# Create datagram sockets
+UDPServerSocketReceive = socket.socket(family=socket.AF_INET, type=socket.SOCK_DGRAM)
+UDPClientSocketTransmit = socket.socket(family=socket.AF_INET, type=socket.SOCK_DGRAM)
+
+# bind server socket
+UDPServerSocketReceive.bind(serverAddressPort)
+
+# wait for start from game software
+print ('')
+print ('waiting for start from game_software')
+
+received_data = ' '
+while received_data != '202':
+	received_data, address = UDPServerSocketReceive.recvfrom(bufferSize)
+	received_data = received_data.decode('utf-8')
+		
+	print ('Received from game software: ', received_data)
+print ('')
+
+# create events, random player and order
+
+while True:
+	if random.randint(1,2) == 1:
+		redplayer = red1
+	else:
+		redplayer = red2
+
+	if random.randint(1,2) == 1:
+		greenplayer = green1
+	else: 
+		greenplayer = green2	
+
+	if random.randint(1,2) == 1:
+		message = str(redplayer) + ":" + str(greenplayer)
+	else:
+		message = str(greenplayer) + ":" + str(redplayer)
+	
+	UDPClientSocketTransmit.sendto(str.encode(str(message)), clientAddressPort)
+	# receive answer from game software
+	received_data, address = UDPServerSocketReceive.recvfrom(bufferSize)
+	received_data = received_data.decode('utf-8')
+	print ('Received from game software: ', received_data)
+	print ('')
+	if received_data == '221':
+		print('Received code: 221')
+		print('Received code: 221')
+		print('Received code: 221')
+		break
+	time.sleep(random.randint(1,3))
+	
+print("program complete")
     
     
