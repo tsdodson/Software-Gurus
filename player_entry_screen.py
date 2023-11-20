@@ -138,6 +138,7 @@ class PlayerEntry:
             label.grid(row= 3 + i, column=1, sticky= "e")
             
         for i in range(len(self.team1Entries)):
+            # labelname = "greenlabel" + i
             label = tk.Label(self.frame2, text= '0')
             label.grid(row= 3 + i, column=2, sticky= "e")
 
@@ -193,13 +194,13 @@ class PlayerEntry:
                 if player_exists(supabase,self.team1ID[i].get()):
                     print('player already exists!')
                 else:
-                    self.team1Entries.append([self.team1ID[i].get(), self.team1CodeName[i].get(), self.team1EquipmentID[i].get(), self.team1FirstName[i].get(),self.team1LastName[i].get()])
+                    self.team1Entries.append([self.team1ID[i].get(), self.team1CodeName[i].get(), self.team1EquipmentID[i].get(), self.team1FirstName[i].get(),self.team1LastName[i].get(),0])
                     add_entries(supabase, self.team1ID[i].get(), self.team1FirstName[i].get(), self.team1LastName[i].get(),self.team1CodeName[i].get())
             if self.team2ID[i].get() != '':
                 if player_exists(supabase,self.team2ID[i].get()):
                     print('Player already exists!')
                 else:
-                    self.team2Entries.append([self.team2ID[i].get(), self.team2CodeName[i].get(), self.team2EquipmentID[i].get(), self.team2FirstName[i].get(),self.team2LastName[i].get()])
+                    self.team2Entries.append([self.team2ID[i].get(), self.team2CodeName[i].get(), self.team2EquipmentID[i].get(), self.team2FirstName[i].get(),self.team2LastName[i].get(),0])
                     add_entries(supabase, self.team2ID[i].get(), self.team2FirstName[i].get(), self.team2LastName[i].get(), self.team2CodeName[i].get())
         self.transmit()
         # Create action screen for frame2
@@ -226,17 +227,17 @@ class PlayerEntry:
     
         
     def updateEvents(self):
-        
-        label = tk.Label(self.frame2, text = "")
-        label.grid(row=25,  column=6, sticky="e", columnspan=6, rowspan=5)
+        self.numevents+=1
+        # label = tk.Text(self.frame2, text = "")
+        # label.grid(row=25+self.numevents,  column=6, sticky="e", columnspan=12, rowspan=20)
         msg = returnReceivedMessages()
         if msg == "":
             return
         elif ":" not in msg:
             if msg == "53":
-                print("red base has been scored")
+                self.text.insert(tk.END, "Red base has been scored")
             elif msg == "43":
-                print("green base has been scored")
+                self.text.insert(tk.END, "Green base has been scored")
         else:
             player1 = ""
             player2 = ""
@@ -254,23 +255,30 @@ class PlayerEntry:
             for i in range(max(len(self.team1Entries), len(self.team2Entries))):
                 if t == self.team1Entries[i][2]:
                     player1 = self.team1Entries[i][1]
+                    team1 = 'Green'
                     break
                 elif t == self.team2Entries[i][2]:
                     player1 = self.team2Entries[i][1]
+                    team1 = 'Red'
                     break
             for i in range(max(len(self.team1Entries), len(self.team2Entries))):
                 if h == self.team1Entries[i][2]:
                     player2 = self.team1Entries[i][1]
+                    team2 = 'Green'
                     break
                 elif h == self.team2Entries[i][2]:
                     player2 = self.team2Entries[i][1]
+                    team2 = 'Red'
                     break
-            
-            if player1 or player2:
-                label.config(text=f" {player1} shot {player2}")
+            if team1 == team2:
+                transmitCode(t)
+                
+                self.text.insert(tk.END, "Friendly fire!\n")
+            elif player1 or player2:
+                self.text.insert(tk.END, f"{player1} shot {player2}\n")
 
     def game_timer(self):
-        countdown_seconds = 5
+        countdown_seconds = 30
         def update_game_timer():
             nonlocal countdown_seconds
             if countdown_seconds > 0:
@@ -323,7 +331,9 @@ class PlayerEntry:
         self.root = tk.Tk()
         self.root.geometry("1500x600")
         self.root.title('Software Gurus - Laser Tag')
+        self.numevents = 0
         
+
         # Bind the 'F5', 'F12' and 'Escape' keys to perform operations
         self.root.bind('<F5>', self.show_action_screen)
         self.root.bind('<Escape>', self.show_entry_screen)
@@ -336,6 +346,11 @@ class PlayerEntry:
         
         self.frame2 = tk.Frame(self.root)
         self.current_frame = None
+        self.text = tk.Text(self.frame2, wrap=tk.WORD, width=20, height=10)
+        self.text.grid(row= 25,column=6)
+        self.scrollbar = tk.Scrollbar(self.frame2, command=self.text.yview)
+        self.scrollbar.grid(row=25,column=7)
+        self.text.config(yscrollcommand=self.scrollbar.set)
 
         self.transmitted = [] # Holds codes that have been prev transmitted so they wont be transmitted already
 
