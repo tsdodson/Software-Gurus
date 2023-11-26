@@ -42,6 +42,7 @@ In order to run the project, install the following packages using the pip instal
     2. pip3 install supabase <br>
     3. pip3 install tk <br>
     4. pip3 install mysql-connector <br>
+    5. pip3 install pygame <br>
     <br><br>
 If 'pip3' does not work try to use 'pip' instead.
 
