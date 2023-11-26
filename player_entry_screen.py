@@ -139,7 +139,7 @@ class PlayerEntry:
             
         for i in range(len(self.team1Entries)):
             # labelname = "greenlabel" + i
-            label = tk.Label(self.frame2, text= '0')
+            label = tk.Label(self.frame2, text= self.team1Entries[i][5])
             label.grid(row= 3 + i, column=2, sticky= "e")
 
 
@@ -148,7 +148,7 @@ class PlayerEntry:
             label.grid(row= 3 + i, column=40, sticky= "e")
             
         for i in range(len(self.team2Entries)):
-            label = tk.Label(self.frame2, text= '0')
+            label = tk.Label(self.frame2, text= self.team2Entries[i][5])
             label.grid(row= 3 + i, column=41, sticky= "e")
         
         label = tk.Label(self.frame2, text = "Events")
@@ -227,6 +227,7 @@ class PlayerEntry:
     
         
     def updateEvents(self):
+        self.createAction()
         self.numevents+=1
         # label = tk.Text(self.frame2, text = "")
         # label.grid(row=25+self.numevents,  column=6, sticky="e", columnspan=12, rowspan=20)
@@ -251,24 +252,28 @@ class PlayerEntry:
             h = msg[r:]
             
             transmitCode(h)
-            
+            score1Index,score2Index = 0,0
             for i in range(max(len(self.team1Entries), len(self.team2Entries))):
                 if t == self.team1Entries[i][2]:
                     player1 = self.team1Entries[i][1]
                     team1 = 'Green'
+                    score1Index = i
                     break
                 elif t == self.team2Entries[i][2]:
                     player1 = self.team2Entries[i][1]
                     team1 = 'Red'
+                    score1Index = i
                     break
             for i in range(max(len(self.team1Entries), len(self.team2Entries))):
                 if h == self.team1Entries[i][2]:
                     player2 = self.team1Entries[i][1]
                     team2 = 'Green'
+                    score2Index = i
                     break
                 elif h == self.team2Entries[i][2]:
                     player2 = self.team2Entries[i][1]
                     team2 = 'Red'
+                    score2Index = i
                     break
             if team1 == team2:
                 transmitCode(t)
@@ -276,6 +281,10 @@ class PlayerEntry:
                 self.text.insert(tk.END, "Friendly fire!\n")
             elif player1 or player2:
                 self.text.insert(tk.END, f"{player1} shot {player2}\n")
+                if team1 == "Green":
+                    self.team1Entries[score1Index][5] += 10
+                else:
+                    self.team2Entries[score2Index][5] += 10
 
     def game_timer(self):
         countdown_seconds = 30
@@ -362,12 +371,14 @@ class PlayerEntry:
         self.team1ID = []
         self.team1CodeName = []
         self.team1EquipmentID = []
+        self.team1PlayerScore = []
 
         self.team2FirstName = []
         self.team2LastName = []
         self.team2ID = []
         self.team2CodeName = []
         self.team2EquipmentID = []
+        self.team2PlayerScore = []
 
         # Create labels and entries for frame1
         self.createEntries()
