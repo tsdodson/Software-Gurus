@@ -1,5 +1,8 @@
+import threading
 import tkinter as tk
 from tkinter import messagebox
+
+import pygame
 from database import *
 import random
 import os
@@ -288,6 +291,9 @@ class PlayerEntry:
 
     def game_timer(self):
         countdown_seconds = 30
+        random_track = random.randint(1,8)
+        mp3_file_path = "./GameMusicFiles/Track0" + str(random_track) + ".mp3"
+        self.play_mp3(mp3_file_path)
         def update_game_timer():
             nonlocal countdown_seconds
             if countdown_seconds > 0:
@@ -335,6 +341,28 @@ class PlayerEntry:
 
         #root.mainloop()
 
+    def play_mp3(self, file_path):
+            def play_music():
+                try:
+                    pygame.mixer.init()
+                    # Load the MP3 file
+                    pygame.mixer.music.load(file_path)
+
+                    # Play the MP3 file
+                    pygame.mixer.music.play()
+
+                    # Wait for the music to finish playing
+                    while pygame.mixer.music.get_busy():
+                        pygame.time.Clock().tick(10)
+
+                except pygame.error as e:
+                    print(f"Error playing MP3: {e}")
+                    
+            # Create a new thread for playing music
+            music_thread = threading.Thread(target=play_music)
+
+            # Start the thread
+            music_thread.start()
     # ---------------------- Init function ----------------------
     def __init__(self):
         self.root = tk.Tk()
