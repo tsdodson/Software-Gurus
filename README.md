@@ -60,7 +60,7 @@ If the command does not work, try using 'python' instead of 'python3'.
 
 To enter a player, enter the information in the columns in the following order:
 <br>
-Player ID, code name, equipment ID, first name, last name.
+Player ID, code name, equipment ID, first name, last name. For the game traffic generator to work, please enter the equipment codes '89', '21' for the green team. And equipment codes '5' and '3' for the red team.
 
 ## Members
 
