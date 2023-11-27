@@ -425,7 +425,7 @@ class PlayerEntry:
         self.text = tk.Text(self.frame2, wrap=tk.WORD, width=50, height=10)
         self.text.grid(row= 25,column=6)
         self.scrollbar = tk.Scrollbar(self.frame2, command=self.text.yview)
-        self.scrollbar.grid(row=27,column=7)
+        self.scrollbar.grid(row=25,column=7)
         self.text.config(yscrollcommand=self.scrollbar.set)
 
         self.transmitted = [] # Holds codes that have been prev transmitted so they wont be transmitted already

@@ -1,6 +1,7 @@
 import threading
 import tkinter as tk
 from tkinter import messagebox
+
 import pygame
 from database import *
 import random
@@ -127,25 +128,20 @@ class PlayerEntry:
     
     # ---------------------- Creates action screen ----------------------
     def createAction(self):
-        for widget in self.frame2.winfo_children():
-            if hasattr(widget, 'grid_info') and 'column' in widget.grid_info():
-                if widget.grid_info()["column"] in [1, 2, 40, 41]:
-                    widget.destroy()
         label = tk.Label(self.frame2, text="Action Screen")
         label.grid(row=1, column=6, sticky="e")
-
+        
         label = tk.Label(self.frame2, text= "GREEN TEAM")
         label.grid(row= 2, column=1, sticky= "e")
         label = tk.Label(self.frame2, text= "RED TEAM")
         label.grid(row= 2, column=40, sticky= "e")
-
-        self.team1Entries.sort(key=lambda x: x[5], reverse=True)
-        self.team2Entries.sort(key=lambda x: x[5], reverse=True)
+       
         for i in range(len(self.team1Entries)):
             label = tk.Label(self.frame2, text= self.team1Entries[i][1])
-            label.grid(row= 3 + i, column=1, sticky= "e")                    
+            label.grid(row= 3 + i, column=1, sticky= "e")
             
         for i in range(len(self.team1Entries)):
+            # labelname = "greenlabel" + i
             label = tk.Label(self.frame2, text= self.team1Entries[i][5])
             label.grid(row= 3 + i, column=2, sticky= "e")
 
@@ -158,21 +154,6 @@ class PlayerEntry:
             label = tk.Label(self.frame2, text= self.team2Entries[i][5])
             label.grid(row= 3 + i, column=41, sticky= "e")
         
-        #Team Scores
-        for i in range(len(self.team1Entries)):
-            label = tk.Label(self.frame2, text = self.team1Score)
-            label.configure(fg= "black")
-            label.grid(row= 20, column=2, sticky= "e")
-            if self.team1Score > self.team2Score:
-                label.configure(fg= "red",font=(20))
-
-        for i in range(len(self.team2Entries)):
-            label = tk.Label(self.frame2, text = self.team2Score)
-            label.configure(fg= "black")
-            label.grid(row= 20, column=41, sticky= "e")
-            if self.team2Score > self.team1Score:
-                label.configure(fg= "red",font=(20))
-                
         label = tk.Label(self.frame2, text = "Events")
         label.grid(row=24,  column=6, sticky="e")
 
@@ -229,7 +210,6 @@ class PlayerEntry:
         self.createAction()
         return 
     
-    
     # ---------------------- Clears all current entries ----------------------
     def clear_entries(self, event=None):
         # Iterate through the all the entries and clear the values
@@ -250,19 +230,21 @@ class PlayerEntry:
     
         
     def updateEvents(self):
+        self.createAction()
         self.numevents+=1
         # label = tk.Text(self.frame2, text = "")
         # label.grid(row=25+self.numevents,  column=6, sticky="e", columnspan=12, rowspan=20)
         msg = returnReceivedMessages()
         if msg == "":
             return
+        elif ":" not in msg:
+            if msg == "53":
+                self.text.insert(tk.END, "Red base has been scored")
+            elif msg == "43":
+                self.text.insert(tk.END, "Green base has been scored")
         else:
             player1 = ""
             player2 = ""
-            team1 = ''
-            team2 = ''
-            base1 = 'Green'
-            base2 = 'Red'
             
             r, t, h = 0, "", ""
 
@@ -298,36 +280,20 @@ class PlayerEntry:
                     break
             if team1 == team2:
                 transmitCode(t)
+                
                 self.text.insert(tk.END, "Friendly fire!\n")
-            elif player1 and player2:
+            elif player1 or player2:
                 self.text.insert(tk.END, f"{player1} shot {player2}\n")
                 if team1 == "Green":
                     self.team1Entries[score1Index][5] += 10
-                    self.team1Score += 10
-                if team1 == "Red":
-                    self.team2Entries[score1Index][5] += 10
-                    self.team2Score += 10
-                    
-            if h in ['43', '53']:
-                if h == '53':
-                    if player1 and team1 == 'Green':
-                        self.text.insert(tk.END, f"{player1} shot Red Base\n")
-                        if "🅱️" not in self.team1Entries[score1Index][1]:
-                            self.team1Entries[score1Index][1] = "🅱️" + self.team1Entries[score1Index][1]
-                        self.team1Entries[score1Index][5] += 100
-                        self.team1Score += 100
-                elif h == '43':
-                    if player1 and team1 == 'Red':
-                        self.text.insert(tk.END, f"{player1} shot Green Base\n")
-                        if "🅱️" not in self.team2Entries[score1Index][1]:
-                            self.team2Entries[score1Index][1] = "🅱️" + self.team2Entries[score1Index][1]
-                        self.team2Entries[score1Index][5] += 100
-                        self.team2Score += 100
-                    
-        self.createAction()
+                else:
+                    self.team2Entries[score2Index][5] += 10
 
     def game_timer(self):
-        countdown_seconds = 360
+        countdown_seconds = 30
+        random_track = random.randint(1,8)
+        mp3_file_path = "./GameMusicFiles/Track0" + str(random_track) + ".mp3"
+        self.play_mp3(mp3_file_path)
         def update_game_timer():
             nonlocal countdown_seconds
             if countdown_seconds > 0:
@@ -349,17 +315,13 @@ class PlayerEntry:
         update_game_timer()
     
     def countdown_timer(self):
-        countdown_seconds = 30
-        random_track = random.randint(1,8)
-        mp3_file_path = "./GameMusicFiles/Track0" + str(random_track) + ".mp3"
+        countdown_seconds = 5
 
 
     # Create a function to update the timer label
         def update_timer():
             nonlocal countdown_seconds
-            if countdown_seconds > 0:        
-                if countdown_seconds == 17:
-                    self.play_mp3(mp3_file_path)
+            if countdown_seconds > 0:
                 countdown_seconds -= 1
                 timer_label.grid(row=18, column=5)
                 timer_label.after(1000, update_timer)
@@ -378,30 +340,29 @@ class PlayerEntry:
         update_timer()
 
         #root.mainloop()
-        
+
     def play_mp3(self, file_path):
-                def play_music():
-                    try:
-                        pygame.mixer.init()
-                        # Load the MP3 file
-                        pygame.mixer.music.load(file_path)
+            def play_music():
+                try:
+                    pygame.mixer.init()
+                    # Load the MP3 file
+                    pygame.mixer.music.load(file_path)
 
-                        # Play the MP3 file
-                        pygame.mixer.music.play()
+                    # Play the MP3 file
+                    pygame.mixer.music.play()
 
-                        # Wait for the music to finish playing
-                        while pygame.mixer.music.get_busy():
-                            pygame.time.Clock().tick(10)
+                    # Wait for the music to finish playing
+                    while pygame.mixer.music.get_busy():
+                        pygame.time.Clock().tick(10)
 
-                    except pygame.error as e:
-                        print(f"Error playing MP3: {e}")
+                except pygame.error as e:
+                    print(f"Error playing MP3: {e}")
+                    
+            # Create a new thread for playing music
+            music_thread = threading.Thread(target=play_music)
 
-                # Create a new thread for playing music
-                music_thread = threading.Thread(target=play_music)
-
-                # Start the thread
-                music_thread.start()
-
+            # Start the thread
+            music_thread.start()
     # ---------------------- Init function ----------------------
     def __init__(self):
         self.root = tk.Tk()
@@ -422,10 +383,10 @@ class PlayerEntry:
         
         self.frame2 = tk.Frame(self.root)
         self.current_frame = None
-        self.text = tk.Text(self.frame2, wrap=tk.WORD, width=50, height=10)
+        self.text = tk.Text(self.frame2, wrap=tk.WORD, width=20, height=10)
         self.text.grid(row= 25,column=6)
         self.scrollbar = tk.Scrollbar(self.frame2, command=self.text.yview)
-        self.scrollbar.grid(row=27,column=7)
+        self.scrollbar.grid(row=25,column=7)
         self.text.config(yscrollcommand=self.scrollbar.set)
 
         self.transmitted = [] # Holds codes that have been prev transmitted so they wont be transmitted already
@@ -439,7 +400,6 @@ class PlayerEntry:
         self.team1CodeName = []
         self.team1EquipmentID = []
         self.team1PlayerScore = []
-        self.team1Score = 0
 
         self.team2FirstName = []
         self.team2LastName = []
@@ -447,7 +407,6 @@ class PlayerEntry:
         self.team2CodeName = []
         self.team2EquipmentID = []
         self.team2PlayerScore = []
-        self.team2Score = 0        
 
         # Create labels and entries for frame1
         self.createEntries()
