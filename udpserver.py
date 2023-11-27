@@ -15,6 +15,8 @@ red1 = '89'
 red2 = '21'
 green1 = '3'
 green2 = '5'
+greenBase = '43'
+redBase = '53'
 
 # Create datagram sockets
 UDPServerSocketReceive = socket.socket(family=socket.AF_INET, type=socket.SOCK_DGRAM)
@@ -38,21 +40,36 @@ print ('')
 # create events, random player and order
 
 while True:
+    
+	opposite_team_player_red = None
+	opposite_team_player_green = None
+ 
 	if random.randint(1,2) == 1:
 		redplayer = red1
+		opposite_team_player_red = red1
 	else:
 		redplayer = red2
-
+		opposite_team_player_red = red2	
 	if random.randint(1,2) == 1:
 		greenplayer = green1
+		opposite_team_player_green = green1
 	else: 
-		greenplayer = green2	
-
-	if random.randint(1,2) == 1:
+		greenplayer = green2
+		opposite_team_player_green = green2	
+  
+	randomInt = random.randint(1, 20)
+ 
+	if randomInt in [1, 5, 9, 15]: 
 		message = str(redplayer) + ":" + str(greenplayer)
-	else:
+	elif randomInt in [2, ]:
+		message = str(opposite_team_player_green) + ":" + str(greenBase)
+	elif randomInt in [3, 8, 11, 17]:  
 		message = str(greenplayer) + ":" + str(redplayer)
-	
+	elif randomInt in [4, 14]: 
+		message = str(opposite_team_player_red) + ":" + str(redBase)
+	else:
+		continue
+    
 	UDPClientSocketTransmit.sendto(str.encode(str(message)), clientAddressPort)
 	# receive answer from game software
 	received_data, address = UDPServerSocketReceive.recvfrom(bufferSize)
